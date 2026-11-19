@@ -2,20 +2,38 @@
 name = "cdrip"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.85"
-description = "Rip audio CDs into tagged, phone-ready album folders using MusicBrainz metadata"
+rust-version = "1.88"
+description = "Rip audio CDs into tagged album folders using MusicBrainz metadata"
 license = "MIT"
 readme = "README.md"
+repository = "https://github.com/Benjaminvdw/cdrip"
 keywords = ["cd", "ripper", "musicbrainz", "flac", "cli"]
 categories = ["command-line-utilities", "multimedia::audio"]
 
 [dependencies]
-clap = { version = "4.6.8", features = ["derive"] }
+anyhow = "1"
+base64 = "0.23"
+clap = { version = "4.6", features = ["derive", "env"] }
+console = "0.16"
+dialoguer = "0.12"
+dirs = "7"
+indicatif = "0.18"
+libc = "0.2"
+serde = { version = "1", features = ["derive"] }
+sha1 = "0.11"
+tempfile = "3"
+ureq = { version = "3", features = ["json"] }
 
 [lints.rust]
-unsafe_code = "forbid"
+# Only src/drive.rs needs unsafe (ioctl calls to the CD drive) and opts in explicitly.
+unsafe_code = "deny"
 
 [lints.clippy]
-# "pedantic" = stricter, more opinionated lints. Great for learning idioms.
-# priority = -1 lets us override individual pedantic lints below if one gets annoying.
 pedantic = { level = "warn", priority = -1 }
+
+[profile.release]
+strip = true
+lto = true
+
+[dev-dependencies]
+serde_json = "1"

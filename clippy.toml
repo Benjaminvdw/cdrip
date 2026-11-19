@@ -1,0 +1,2 @@
+# Words clippy should not ask us to wrap in `backticks` in doc comments.
+doc-valid-idents = ["MusicBrainz", ".."]
